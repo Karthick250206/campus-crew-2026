@@ -13,7 +13,7 @@
 
 body {
   margin: 0;
-  min-width: 390px;
+  min-width: 320px; /* FIXED: Changed from 390px to support smaller mobile devices */
   min-height: 100vh;
 }
 
@@ -65,6 +65,7 @@ button {
   background: #111827;
   color: white;
   transform: translateX(0);
+  transition: transform 0.3s ease-in-out; /* FIXED: Added smooth slide animation */
   z-index: 20;
 }
 
@@ -122,6 +123,7 @@ button {
 .main-content {
   margin-left: 260px;
   padding: 24px;
+  transition: margin 0.3s ease-in-out;
 }
 
 .app-header {
@@ -269,7 +271,7 @@ button {
 .hero-card h1 {
   margin: 0;
   max-width: 680px;
-  font-size: clamp(2rem, 4vw, 4rem);
+  font-size: clamp(1.8rem, 4vw, 4rem); /* FIXED: Scaled down slightly for mobile */
   line-height: 1.05;
 }
 
@@ -387,6 +389,7 @@ button {
   border: 0;
   outline: 0;
   padding: 11px 0;
+  width: 100%; /* FIXED: Allows search box to shrink */
 }
 
 select,
@@ -398,8 +401,11 @@ select,
   background: white;
 }
 
+/* FIXED: Made the table wrapper perfectly responsive */
 .table-wrap {
+  width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .student-table {
@@ -581,8 +587,9 @@ select,
   background: rgba(15, 23, 42, 0.55);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 80px 20px;
+  align-items: center; /* FIXED: Centered modal better on mobile */
+  padding: 20px;
+  overflow-y: auto; /* FIXED: Allowed scrolling if modal is too tall */
 }
 
 .student-modal {
@@ -592,6 +599,8 @@ select,
   padding: 24px;
   position: relative;
   box-shadow: 0 30px 70px rgba(15,23,42,0.25);
+  max-height: 90vh; /* FIXED: Prevent modal from going off-screen */
+  overflow-y: auto;
 }
 
 .modal-close {
@@ -604,6 +613,7 @@ select,
   border: none;
   background: #111827;
   color: white;
+  z-index: 10;
 }
 
 .modal-profile {
@@ -644,6 +654,10 @@ select,
   margin-top: 12px;
 }
 
+/* =========================================
+   RESPONSIVE QUERIES
+   ========================================= */
+
 @media (max-width: 1040px) {
   .metrics-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -658,10 +672,12 @@ select,
 @media (max-width: 720px) {
   .sidebar {
     transform: translateX(-100%);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5); /* FIXED: Make it pop over content */
   }
 
+  /* FIXED THE BIG BUG: This was -100% before! */
   .sidebar.open {
-    transform: translateX(-100%);
+    transform: translateX(0); 
   }
 
   .sidebar-close,
@@ -678,6 +694,7 @@ select,
   .app-header {
     border-radius: 0;
     margin: -12px -12px 18px;
+    flex-wrap: wrap; /* FIXED: Prevent header squish */
   }
 
   .hero-card,
@@ -696,7 +713,8 @@ select,
     width: 100%;
   }
 
+  /* FIXED: Make it 1 column on mobile so it doesn't squish */
   .metrics-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }

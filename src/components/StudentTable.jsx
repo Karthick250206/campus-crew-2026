@@ -16,8 +16,7 @@ function StudentTable({ students, onSelectStudent }) {
         </thead>
         <tbody>
           {students.map((student, index) => (
-            <tr key={index} onClick={() => onSelectStudent(student)}>
-              <td>
+        <tr key={student.id} onClick={() => onSelectStudent(student)}>              <td>
                 <div className="student-cell">
                   <span className="avatar">{student.avatar}</span>
                   <div>
@@ -29,11 +28,11 @@ function StudentTable({ students, onSelectStudent }) {
               <td>{student.department}</td>
               <td>
                 <div className="progress-bar" aria-label={`${student.progress}% progress`}>
-                  <span style={{ width: `${student.attendance}%` }}></span>
+                  <span style={{ width: `${student.progress}%` }}></span>
                 </div>
                 <small>{student.progress}%</small>
               </td>
-              <td>{student.attendance}</td>
+              <td>{student.attendance}%</td>
               <td><span className={`status-pill ${getStatusClass(student.status)}`}>{student.status}</span></td>
             </tr>
           ))}

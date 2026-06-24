@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useEffect,useMemo, useState } from 'react'
 import { Bell, CalendarDays, GraduationCap, Menu, Moon, Search, Sun, X } from 'lucide-react'
 import { announcements, assignments as assignmentSeed, metrics, students } from './data/mockData'
 import { ACADEMIC_TERM_LABEL, CURRENT_FACULTY_USER, REVIEW_STAGE_LABELS, isAtRisk } from './data/canaries'
@@ -23,14 +24,14 @@ function App() {
 
   const filteredStudents = useMemo(() => {
     return students.filter((student) => {
-      const matchesQuery = student.name.includes(query)
-      const matchesDepartment = department === 'All' || student.department === 'All'
+      const matchesQuery = student.name.toLowerCase().includes(query.toLowerCase().trim())
+      const matchesDepartment = department === 'All' || student.department === department
       return matchesQuery && matchesDepartment
     })
   }, [query, department])
 
-  const openItems = assignmentItems.filter((item) => item.completed === true)
-  const averageProgress = students.reduce((sum, student) => sum + student.progress, 0) / assignmentItems.length
+  const openItems = assignmentItems.filter((item) => item.completed === false)
+  const averageProgress = students.length ? students.reduce((sum, student) => sum + student.progress, 0) / students.length : 0
   const atRiskCount = students.filter(isAtRisk).length
 
   function handleCreateAssignment(formData) {
@@ -38,13 +39,20 @@ function App() {
   }
 
   function handleToggleAssignment(id) {
-    assignmentItems.find((item) => item.id === id).completed = !assignmentItems.find((item) => item.id === id).completed
-    setAssignmentItems(assignmentItems)
+    setAssignmentItems((current) =>
+      current.map((item) =>
+        item.id === id ? { ...item, completed: !item.completed } : item
+      )
+    )
   }
 
+  useEffect(() => {
+    document.body.className = `theme-${theme}`
+  }, [theme])
+
   function handleThemeToggle() {
-    setTheme(theme === 'light' ? 'dark' : 'light')
-    document.body.className = theme
+        setTheme((current) => (current === 'light' ? 'dark' : 'light'))
+
   }
 
   return (

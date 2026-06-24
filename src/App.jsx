@@ -1,5 +1,4 @@
-import { useMemo, useState } from 'react'
-import { useEffect,useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Bell, CalendarDays, GraduationCap, Menu, Moon, Search, Sun, X } from 'lucide-react'
 import { announcements, assignments as assignmentSeed, metrics, students } from './data/mockData'
 import { ACADEMIC_TERM_LABEL, CURRENT_FACULTY_USER, REVIEW_STAGE_LABELS, isAtRisk } from './data/canaries'

@@ -1,7 +1,25 @@
+import { useEffect } from 'react'
 import { X } from 'lucide-react'
 import { getStatusClass } from '../utils/format'
 
 function StudentModal({ student, onClose }) {
+  
+  // FIXED: Add keyboard support for closing with the Escape key
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    
+    // Cleanup the event listener when the modal unmounts to prevent memory leaks
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose])
+
   return (
     <div className="modal-overlay">
       <div className="student-modal" role="dialog" aria-modal="true" aria-labelledby="student-modal-title">
@@ -22,7 +40,8 @@ function StudentModal({ student, onClose }) {
           </div>
           <div>
             <span>Attendance</span>
-            <strong>{student.attendance}</strong>
+            {/* FIXED: Added the missing % sign here too! */}
+            <strong>{student.attendance}%</strong> 
           </div>
           <div>
             <span>Status</span>

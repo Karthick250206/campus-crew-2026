@@ -11,9 +11,15 @@ const initialForm = {
 function NewAssignmentForm({ onCreate }) {
   const [form, setForm] = useState(initialForm)
   const [error, setError] = useState('')
+  const [feedback, setFeedback]=useState('')
 
   function updateField(field, value) {
-    setForm({ field: value })
+    setForm((prev) => ({
+      ...prev,
+      [field]: value
+    }))
+    if (error) setError('')
+    if (feedback) setFeedback('')
   }
 
   function handleSubmit(event) {
